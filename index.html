@@ -325,6 +325,55 @@
       color: var(--accent);
     }
 
+    /* EXPANDABLE ABOUT */
+    .term[data-about] {
+      cursor: pointer;
+    }
+
+    .term-about {
+      overflow: hidden;
+      max-height: 0;
+      opacity: 0;
+      transition: max-height 0.4s ease, opacity 0.3s ease 0.1s;
+      border-top: 1px solid transparent;
+      margin-top: 0;
+    }
+
+    .term.expanded .term-about {
+      max-height: 12rem;
+      opacity: 1;
+      border-top-color: var(--rule);
+      margin-top: 0.6rem;
+      padding-top: 0.6rem;
+    }
+
+    .term-about .term-prompt-line {
+      margin-bottom: 0.35rem;
+    }
+
+    .term-about-text {
+      color: var(--text);
+      font-size: 0.75rem;
+      line-height: 1.7;
+    }
+
+    .term-hint {
+      font-size: 0.6rem;
+      color: var(--text-dim);
+      opacity: 0;
+      margin-top: 0.4rem;
+      transition: opacity 0.3s;
+      letter-spacing: 0.03em;
+    }
+
+    .term[data-about]:hover .term-hint {
+      opacity: 1;
+    }
+
+    .term.expanded .term-hint {
+      display: none;
+    }
+
     /* FEATURED TERMINAL */
     .featured {
       margin-bottom: 3rem;
@@ -568,7 +617,7 @@
     <div class="featured reveal">
       <div class="featured-num" data-parallax="0.3">01</div>
       <h2 class="term-name">ABI<span class="term-sub">Artificial Biological Intelligence</span></h2>
-      <div class="term">
+      <div class="term" data-about="abi">
         <div class="term-bar">~/abi</div>
         <div class="term-body">
           <div class="term-line" style="transition-delay:0s"><span class="term-prompt">$ </span><span class="term-cmd">cargo run --release -- --evolve 4</span></div>
@@ -587,6 +636,11 @@
           <div class="term-line" style="transition-delay:0.52s">&nbsp;</div>
           <div class="term-line" style="transition-delay:0.56s">[gen] "warm" → the sun is warm because the weather is good</div>
           <div class="term-line term-tags" style="transition-delay:0.60s"><span class="patent">patent-pending</span> · rust · snn · hebbian · synaptogenesis</div>
+          <div class="term-about">
+            <div class="term-prompt-line"><span class="term-prompt">$ </span><span class="term-cmd">abi --about</span></div>
+            <div class="term-about-text">A spiking neural network that generates coherent language from pure biological dynamics. Neurons fire, synapses grow via dopamine-gated synaptogenesis, and language emerges — no gradient descent, no attention heads. Passes 5 evolutionary training stages from noise exposure through conditional prediction. Patent pending.</div>
+          </div>
+          <div class="term-hint">click to expand</div>
         </div>
       </div>
     </div>
@@ -597,7 +651,7 @@
       <!-- Artemis -->
       <div class="term-block reveal">
         <h3 class="term-name">Artemis<span class="term-sub">social graph intelligence</span></h3>
-        <div class="term">
+        <div class="term" data-about="artemis">
           <div class="term-body">
             <div class="term-line" style="transition-delay:0s"><span class="term-prompt">$ </span><span class="term-cmd">python -m artemis analyze --network target.json</span></div>
             <div class="term-line" style="transition-delay:0.04s">[graph] 22,417 nodes, 89,203 edges loaded</div>
@@ -606,6 +660,11 @@
             <div class="term-line" style="transition-delay:0.16s">[rank] @node_1102  influence: 0.87  reach: 8,231</div>
             <div class="term-line" style="transition-delay:0.20s">[model] cascade prediction: R²=0.84</div>
             <div class="term-line term-tags" style="transition-delay:0.24s">python · graph-theory · monte-carlo · fastapi</div>
+            <div class="term-about">
+              <div class="term-prompt-line"><span class="term-prompt">$ </span><span class="term-cmd">artemis --about</span></div>
+              <div class="term-about-text">Intelligence system that engineers influence cascades across social networks. Combines graph topology analysis, Monte Carlo cascade modeling, real-time social listening, and field team coordination into a unified war room. Built to prove that influence propagation in closed networks is predictable — and designable.</div>
+            </div>
+            <div class="term-hint">click to expand</div>
           </div>
         </div>
       </div>
@@ -613,7 +672,7 @@
       <!-- Pythia -->
       <div class="term-block reveal">
         <h3 class="term-name">Pythia<span class="term-sub">quantitative trading engine</span></h3>
-        <div class="term">
+        <div class="term" data-about="pythia">
           <div class="term-body">
             <div class="term-line" style="transition-delay:0s"><span class="term-prompt">$ </span><span class="term-cmd">npx ts-node engine --live --categories weather</span></div>
             <div class="term-line" style="transition-delay:0.04s">[scan] 142 active markets analyzed</div>
@@ -621,6 +680,11 @@
             <div class="term-line" style="transition-delay:0.12s">[kelly] optimal position: 8.2% of bankroll</div>
             <div class="term-line" style="transition-delay:0.16s">[exec] bought 34 YES @ $0.58 → EV +$5.62</div>
             <div class="term-line term-tags" style="transition-delay:0.20s">typescript · quant · prediction-markets · kelly-criterion</div>
+            <div class="term-about">
+              <div class="term-prompt-line"><span class="term-prompt">$ </span><span class="term-cmd">pythia --about</span></div>
+              <div class="term-about-text">Automated trading engine for prediction markets. Scans hundreds of active contracts, detects mispriced odds using calibrated probability models, sizes positions with Kelly criterion, and executes trades autonomously.</div>
+            </div>
+            <div class="term-hint">click to expand</div>
           </div>
         </div>
       </div>
@@ -628,7 +692,7 @@
       <!-- Lock In -->
       <div class="term-block reveal">
         <h3 class="term-name">Lock In<span class="term-sub">voice-first scheduling</span></h3>
-        <div class="term">
+        <div class="term" data-about="lockin">
           <div class="term-body">
             <div class="term-line" style="transition-delay:0s"><span class="term-prompt">$ </span><span class="term-cmd">npm run dev</span></div>
             <div class="term-line" style="transition-delay:0.04s">[mic] listening...</div>
@@ -637,6 +701,11 @@
             <div class="term-line" style="transition-delay:0.16s">[cal] <span class="term-ok">✓</span> created: "Lunch w/ Jake" → Tue Mar 4, 12:00 PM</div>
             <div class="term-line term-tags" style="transition-delay:0.20s">next.js · react · supabase · stripe · vercel-ai</div>
             <div class="term-line term-visit" style="transition-delay:0.24s"><a href="https://lockedtf.in" target="_blank" rel="noopener">→ lockedtf.in</a></div>
+            <div class="term-about">
+              <div class="term-prompt-line"><span class="term-prompt">$ </span><span class="term-cmd">lockin --about</span></div>
+              <div class="term-about-text">Voice-first AI scheduling app. Speak naturally, get calendar events — no forms, no typing. Built for people who move too fast to schedule manually. Stripe billing, Supabase auth, Vercel AI SDK.</div>
+            </div>
+            <div class="term-hint">click to expand</div>
           </div>
         </div>
       </div>
@@ -644,7 +713,7 @@
       <!-- remove.me -->
       <div class="term-block reveal">
         <h3 class="term-name">remove.me<span class="term-sub">privacy-first navigation</span></h3>
-        <div class="term">
+        <div class="term" data-about="removeme">
           <div class="term-body">
             <div class="term-line" style="transition-delay:0s"><span class="term-prompt">$ </span><span class="term-cmd">curl -X POST /route -d '5th & main → union sq'</span></div>
             <div class="term-line" style="transition-delay:0.04s">[std] standard route: 1.2 mi, 14 cameras</div>
@@ -653,6 +722,11 @@
             <div class="term-line" style="transition-delay:0.16s">[algo] surveillance-weighted A* pathfinding</div>
             <div class="term-line term-tags" style="transition-delay:0.20s">node.js · privacy · routing · geospatial</div>
             <div class="term-line term-visit" style="transition-delay:0.24s"><a href="https://remove.me" target="_blank" rel="noopener">→ remove.me</a></div>
+            <div class="term-about">
+              <div class="term-prompt-line"><span class="term-prompt">$ </span><span class="term-cmd">removeme --about</span></div>
+              <div class="term-about-text">Privacy-first navigation that routes you around surveillance cameras. Uses weighted A* pathfinding over mapped camera locations to find paths that minimize exposure — because the shortest route isn't always the smartest one.</div>
+            </div>
+            <div class="term-hint">click to expand</div>
           </div>
         </div>
       </div>
@@ -660,7 +734,7 @@
       <!-- Valar -->
       <div class="term-block reveal">
         <h3 class="term-name">Valar<span class="term-sub">data sovereignty platform</span></h3>
-        <div class="term">
+        <div class="term" data-about="valar">
           <div class="term-body">
             <div class="term-line" style="transition-delay:0s"><span class="term-prompt">$ </span><span class="term-cmd">valar status --user ash</span></div>
             <div class="term-line" style="transition-delay:0.04s">[vault] 2.4 GB encrypted across 847 records</div>
@@ -668,6 +742,11 @@
             <div class="term-line" style="transition-delay:0.12s">[policy] user rule: <span class="term-accent">DENY</span> all browsing data</div>
             <div class="term-line" style="transition-delay:0.16s">[block] request denied → logged to audit trail</div>
             <div class="term-line term-tags" style="transition-delay:0.20s">fastapi · react · gdpr · privacy · encryption</div>
+            <div class="term-about">
+              <div class="term-prompt-line"><span class="term-prompt">$ </span><span class="term-cmd">valar --about</span></div>
+              <div class="term-about-text">Data sovereignty platform where users own, control, and monetize their personal data. Encrypted vault storage, policy-based access control, GDPR compliance, and a marketplace to sell data on your own terms.</div>
+            </div>
+            <div class="term-hint">click to expand</div>
           </div>
         </div>
       </div>
@@ -675,7 +754,7 @@
       <!-- Daedalus -->
       <div class="term-block reveal">
         <h3 class="term-name">Daedalus<span class="term-sub">parallel agent system</span></h3>
-        <div class="term">
+        <div class="term" data-about="daedalus">
           <div class="term-body">
             <div class="term-line" style="transition-delay:0s"><span class="term-prompt">$ </span><span class="term-cmd">python -m daedalus solve "optimize db queries"</span></div>
             <div class="term-line" style="transition-delay:0.04s">[swarm] 12 agents decomposing problem...</div>
@@ -684,6 +763,11 @@
             <div class="term-line" style="transition-delay:0.16s">[consensus] 9/12 agree: add composite index</div>
             <div class="term-line" style="transition-delay:0.20s">[result] projected: 340ms → 12ms <span class="term-ok">✓</span></div>
             <div class="term-line term-tags" style="transition-delay:0.24s">python · agents · autonomous · multi-agent</div>
+            <div class="term-about">
+              <div class="term-prompt-line"><span class="term-prompt">$ </span><span class="term-cmd">daedalus --about</span></div>
+              <div class="term-about-text">Parallel agent system for autonomous reasoning. Independent agents decompose problems, investigate in parallel, communicate findings, and reach consensus. The project that led to ABI.</div>
+            </div>
+            <div class="term-hint">click to expand</div>
           </div>
         </div>
       </div>
@@ -973,6 +1057,15 @@ function updateScroll() {
 }
 
 requestAnimationFrame(updateScroll);
+
+// ── Terminal Click-to-Expand ──────────────────────
+document.querySelectorAll('.term[data-about]').forEach(term => {
+  term.addEventListener('click', (e) => {
+    // Don't toggle if clicking a link
+    if (e.target.closest('a')) return;
+    term.classList.toggle('expanded');
+  });
+});
 
 // ── Magnetic Hover on Contact Links ────────────
 if (!('ontouchstart' in window)) {
