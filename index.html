@@ -35,6 +35,53 @@
 
     ::selection { background: var(--accent); color: #fff; }
 
+    /* FILM GRAIN OVERLAY */
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      z-index: 999;
+      pointer-events: none;
+      opacity: 0.035;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+      background-repeat: repeat;
+      background-size: 256px 256px;
+    }
+
+    /* MARQUEE */
+    .marquee-wrap {
+      overflow: hidden;
+      padding: 1rem 0;
+      border-top: 1px solid var(--rule);
+      border-bottom: 1px solid var(--rule);
+      position: relative;
+    }
+
+    .marquee-track {
+      display: flex;
+      width: max-content;
+      animation: marquee 40s linear infinite;
+    }
+
+    .marquee-track span {
+      font-family: var(--mono);
+      font-size: 0.65rem;
+      color: var(--text-dim);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      white-space: nowrap;
+      padding: 0 2rem;
+    }
+
+    .marquee-track .accent-word {
+      color: var(--accent);
+    }
+
+    @keyframes marquee {
+      from { transform: translateX(0); }
+      to { transform: translateX(-50%); }
+    }
+
     /* NEURAL CANVAS — subtle, no mouse interaction */
     #canvas {
       position: fixed;
@@ -112,8 +159,22 @@
       line-height: 0.95;
       letter-spacing: -0.04em;
       margin-bottom: 2.5rem;
+    }
+
+    .hero h1 .line {
+      display: block;
       opacity: 0;
-      animation: enter 0.6s ease forwards 0.25s;
+      transform: translateY(100%) rotateX(-8deg);
+      animation: lineReveal 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+      transform-origin: left bottom;
+    }
+
+    .hero h1 .line:nth-child(1) { animation-delay: 0.2s; }
+    .hero h1 .line:nth-child(2) { animation-delay: 0.35s; }
+    .hero h1 .line:nth-child(3) { animation-delay: 0.5s; }
+
+    @keyframes lineReveal {
+      to { opacity: 1; transform: translateY(0) rotateX(0); }
     }
 
     .hero-bio {
@@ -438,6 +499,7 @@
       hr { margin: 0 1.5rem; }
       .hero { padding: 0 1.5rem; }
       .hero-stats { gap: 1.5rem 2rem; flex-wrap: wrap; }
+      .marquee-wrap { display: none; }
       .projects { padding: 3.5rem 1.5rem 2rem; }
       .project { grid-template-columns: 2rem 1fr; gap: 1rem; }
       .featured-num { font-size: 5rem; top: -1rem; }
@@ -463,7 +525,7 @@
 
   <section class="hero">
     <p class="hero-label">Ashton Rowland, 21</p>
-    <h1>I build things<br>that shouldn't<br>exist yet.</h1>
+    <h1><span class="line">I build things</span><span class="line">that shouldn't</span><span class="line">exist yet.</span></h1>
     <p class="hero-bio">
       Building an <strong>artificial brain</strong> — 74,700 spiking neurons
       that produce coherent language. No transformers. No backpropagation.
@@ -489,7 +551,12 @@
     </div>
   </section>
 
-  <hr>
+  <div class="marquee-wrap">
+    <div class="marquee-track">
+      <span>rust</span><span>neuroscience</span><span class="accent-word">spiking neural networks</span><span>graph theory</span><span>prediction markets</span><span>typescript</span><span>python</span><span>monte carlo</span><span class="accent-word">hebbian learning</span><span>fastapi</span><span>react</span><span>kelly criterion</span><span>synaptogenesis</span><span>privacy</span><span>next.js</span><span class="accent-word">structural plasticity</span><span>supabase</span><span>autonomous agents</span>
+      <span>rust</span><span>neuroscience</span><span class="accent-word">spiking neural networks</span><span>graph theory</span><span>prediction markets</span><span>typescript</span><span>python</span><span>monte carlo</span><span class="accent-word">hebbian learning</span><span>fastapi</span><span>react</span><span>kelly criterion</span><span>synaptogenesis</span><span>privacy</span><span>next.js</span><span class="accent-word">structural plasticity</span><span>supabase</span><span>autonomous agents</span>
+    </div>
+  </div>
 
   <section class="projects" id="projects">
     <p class="section-title reveal">Projects</p>
@@ -662,7 +729,8 @@
 const c = document.getElementById('canvas');
 const x = c.getContext('2d');
 let W, H, nodes = [];
-const N = 60;
+const N = 90;
+let burstTimer = 0;
 
 function resize() {
   W = c.width = innerWidth;
@@ -697,9 +765,9 @@ function frame() {
         const a = (1 - d / 160) * 0.12;
         const firing = nodes[i].fire > 0 || nodes[j].fire > 0;
         x.strokeStyle = firing
-          ? `rgba(232, 74, 27, ${a * 2.5})`
+          ? `rgba(232, 74, 27, ${a * 3})`
           : `rgba(200, 196, 188, ${a})`;
-        x.lineWidth = firing ? 0.8 : 0.3;
+        x.lineWidth = firing ? 1 : 0.3;
         x.beginPath();
         x.moveTo(nodes[i].x, nodes[i].y);
         x.lineTo(nodes[j].x, nodes[j].y);
@@ -714,20 +782,29 @@ function frame() {
     const pulse = Math.sin(n.phase) * 0.3 + 0.7;
 
     if (n.fire > 0) {
+      // outer glow
       x.beginPath();
-      x.arc(n.x, n.y, n.r * 5, 0, 6.28);
-      x.fillStyle = `rgba(232, 74, 27, ${(n.fire / 20) * 0.2})`;
+      x.arc(n.x, n.y, n.r * 8, 0, 6.28);
+      x.fillStyle = `rgba(232, 74, 27, ${(n.fire / 25) * 0.12})`;
       x.fill();
+      // mid glow
       x.beginPath();
-      x.arc(n.x, n.y, n.r * 1.5, 0, 6.28);
-      x.fillStyle = `rgba(236, 232, 225, ${n.fire / 20})`;
+      x.arc(n.x, n.y, n.r * 4, 0, 6.28);
+      x.fillStyle = `rgba(232, 74, 27, ${(n.fire / 25) * 0.25})`;
       x.fill();
+      // core
+      x.beginPath();
+      x.arc(n.x, n.y, n.r * 1.8, 0, 6.28);
+      x.fillStyle = `rgba(236, 232, 225, ${n.fire / 22})`;
+      x.fill();
+
       n.fire--;
       if (n.fire === 0) {
+        // cascade propagation — more aggressive
         for (const o of nodes) {
           const d = Math.hypot(n.x - o.x, n.y - o.y);
-          if (d < 120 && Math.random() < 0.12 && o.fire === 0) {
-            o.fire = 15;
+          if (d < 140 && Math.random() < 0.18 && o.fire === 0) {
+            o.fire = 20;
           }
         }
       }
@@ -746,8 +823,22 @@ function frame() {
     if (n.y > H + 20) n.y = -20;
   }
 
-  if (Math.random() < 0.015) {
-    nodes[Math.floor(Math.random() * N)].fire = 18;
+  // spontaneous firing
+  if (Math.random() < 0.02) {
+    nodes[Math.floor(Math.random() * N)].fire = 22;
+  }
+
+  // occasional burst event — cluster of neurons fire together
+  burstTimer++;
+  if (burstTimer > 400 && Math.random() < 0.005) {
+    burstTimer = 0;
+    const cx = Math.random() * W;
+    const cy = Math.random() * H;
+    for (const n of nodes) {
+      if (Math.hypot(n.x - cx, n.y - cy) < 250 && n.fire === 0) {
+        n.fire = 25;
+      }
+    }
   }
 
   requestAnimationFrame(frame);
