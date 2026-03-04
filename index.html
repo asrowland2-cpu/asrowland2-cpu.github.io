@@ -19,6 +19,7 @@
       --text-ghost: #1a1a1a;
       --accent: #e84a1b;
       --rule: #161616;
+      --term-bg: #0a0a0a;
       --display: 'Space Grotesk', sans-serif;
       --mono: 'JetBrains Mono', monospace;
     }
@@ -48,41 +49,19 @@
       background-size: 256px 256px;
     }
 
-    /* MARQUEE */
-    .marquee-wrap {
-      overflow: hidden;
-      padding: 1rem 0;
-      border-top: 1px solid var(--rule);
-      border-bottom: 1px solid var(--rule);
-      position: relative;
+    /* SCROLL PROGRESS BAR */
+    .scroll-progress {
+      position: fixed;
+      top: 0;
+      right: 0;
+      width: 2px;
+      height: 0%;
+      background: var(--accent);
+      z-index: 200;
+      transition: none;
     }
 
-    .marquee-track {
-      display: flex;
-      width: max-content;
-      animation: marquee 40s linear infinite;
-    }
-
-    .marquee-track span {
-      font-family: var(--mono);
-      font-size: 0.65rem;
-      color: var(--text-dim);
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      white-space: nowrap;
-      padding: 0 2rem;
-    }
-
-    .marquee-track .accent-word {
-      color: var(--accent);
-    }
-
-    @keyframes marquee {
-      from { transform: translateX(0); }
-      to { transform: translateX(-50%); }
-    }
-
-    /* NEURAL CANVAS — subtle, no mouse interaction */
+    /* NEURAL CANVAS */
     #canvas {
       position: fixed;
       inset: 0;
@@ -239,10 +218,101 @@
       margin-bottom: 3rem;
     }
 
-    /* FEATURED PROJECT */
+    /* TERMINAL BLOCKS */
+    .term {
+      background: var(--term-bg);
+      border: 1px solid var(--rule);
+      border-radius: 2px;
+      font-family: var(--mono);
+      font-size: 0.78rem;
+      line-height: 1.65;
+      margin-bottom: 1.5rem;
+      overflow: hidden;
+    }
+
+    .term-name {
+      font-family: var(--display);
+      font-size: 1.3rem;
+      font-weight: 600;
+      color: var(--text-bright);
+      letter-spacing: -0.02em;
+      margin-bottom: 0.5rem;
+    }
+
+    .term-name .term-sub {
+      font-family: var(--mono);
+      font-size: 0.7rem;
+      font-weight: 400;
+      color: var(--text-dim);
+      margin-left: 0.75rem;
+      letter-spacing: 0.02em;
+    }
+
+    .term-bar {
+      display: flex;
+      align-items: center;
+      padding: 0.5rem 1rem;
+      border-bottom: 1px solid var(--rule);
+      font-size: 0.65rem;
+      color: var(--text-dim);
+      letter-spacing: 0.03em;
+      user-select: none;
+    }
+
+    .term-body {
+      padding: 1rem 1.25rem;
+    }
+
+    .term-line {
+      opacity: 0;
+      transform: translateY(8px);
+      transition: opacity 0.35s ease, transform 0.35s ease;
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+
+    .term.active .term-line {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .term-prompt {
+      color: var(--accent);
+    }
+
+    .term-cmd {
+      color: var(--text-bright);
+    }
+
+    .term-ok {
+      color: #5a9a5a;
+    }
+
+    .term-dim {
+      color: var(--text-dim);
+    }
+
+    .term-accent {
+      color: var(--accent);
+    }
+
+    .term-tags {
+      color: var(--text-dim);
+      font-size: 0.7rem;
+      margin-top: 0.5rem;
+      padding-top: 0.5rem;
+      border-top: 1px solid var(--rule);
+    }
+
+    .term-tags .patent {
+      color: var(--accent);
+    }
+
+    /* FEATURED TERMINAL */
     .featured {
-      margin-bottom: 3.5rem;
+      margin-bottom: 3rem;
       position: relative;
+      isolation: isolate;
     }
 
     .featured-num {
@@ -254,169 +324,80 @@
       position: absolute;
       top: -2rem;
       left: -0.5rem;
+      z-index: -1;
       user-select: none;
       pointer-events: none;
+      will-change: transform;
     }
 
-    .featured-content {
-      position: relative;
-      padding-left: 1rem;
-      border-left: 2px solid var(--accent);
-    }
-
-    .featured-name {
-      font-size: clamp(2.5rem, 5vw, 4rem);
+    .featured .term-name {
+      font-size: clamp(2rem, 4vw, 3rem);
       font-weight: 700;
-      color: var(--text-bright);
-      letter-spacing: -0.03em;
-      margin-bottom: 0.25rem;
-    }
-
-    .featured-sub {
-      font-family: var(--mono);
-      font-size: 0.8rem;
-      color: var(--accent);
-      margin-bottom: 1.5rem;
-      letter-spacing: 0.02em;
-    }
-
-    .featured-desc {
-      font-size: 1.05rem;
-      font-weight: 300;
-      line-height: 1.8;
-      max-width: 600px;
-      margin-bottom: 2rem;
-    }
-
-    .featured-data {
-      display: flex;
-      gap: 3rem;
-      flex-wrap: wrap;
-      font-family: var(--mono);
-      font-size: 0.75rem;
-      padding: 1.5rem 0;
-      border-top: 1px solid var(--rule);
-      border-bottom: 1px solid var(--rule);
-      margin-bottom: 1.5rem;
-    }
-
-    .data-point .dp-val {
-      font-size: 1rem;
-      font-weight: 500;
-      color: var(--text-bright);
-      display: block;
-    }
-
-    .data-point .dp-label {
-      color: var(--text-dim);
-      font-size: 0.65rem;
-      letter-spacing: 0.04em;
-    }
-
-    .tag-row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.5rem;
-    }
-
-    .tag {
-      font-family: var(--mono);
-      font-size: 0.6rem;
-      color: var(--text-dim);
-      letter-spacing: 0.04em;
-      padding: 0.3rem 0.6rem;
-      border: 1px solid var(--rule);
-    }
-
-    .patent-tag {
-      color: var(--accent);
-      border-color: rgba(232, 74, 27, 0.25);
-    }
-
-    /* PROJECT LIST */
-    .project-list {
-      display: flex;
-      flex-direction: column;
-    }
-
-    .project {
-      display: grid;
-      grid-template-columns: 3rem 1fr;
-      gap: 2rem;
-      padding: 2rem 0;
-      border-top: 1px solid var(--rule);
-      transition: opacity 0.3s;
-    }
-
-    .project:last-child {
-      border-bottom: 1px solid var(--rule);
-    }
-
-    .project-num {
-      font-family: var(--mono);
-      font-size: 0.75rem;
-      color: var(--text-dim);
-      padding-top: 0.35rem;
-      transition: color 0.3s;
-    }
-
-    .project:hover .project-num { color: var(--accent); }
-
-    .project-body h3 {
-      font-size: 1.5rem;
-      font-weight: 600;
-      color: var(--text-bright);
-      letter-spacing: -0.02em;
       margin-bottom: 0.5rem;
     }
 
-    .project-body p {
-      font-size: 0.9rem;
-      font-weight: 300;
-      color: var(--text);
-      line-height: 1.7;
-      max-width: 550px;
-      margin-bottom: 1rem;
+    .featured .term-name .term-sub {
+      font-size: 0.8rem;
+      color: var(--accent);
+    }
+
+    .featured .term {
+      position: relative;
+      border-color: rgba(232, 74, 27, 0.2);
+    }
+
+    .featured .term-bar {
+      border-bottom-color: rgba(232, 74, 27, 0.15);
+    }
+
+    .featured .term-body {
+      padding: 1.25rem 1.5rem;
+    }
+
+    .featured .term {
+      font-size: 0.82rem;
+    }
+
+    /* TERMINAL HOVER */
+    .term {
+      transition: border-color 0.3s ease;
+    }
+
+    .term:hover {
+      border-color: rgba(200, 196, 188, 0.12);
+    }
+
+    .featured .term:hover {
+      border-color: rgba(232, 74, 27, 0.35);
+    }
+
+    /* TERMINAL GRID */
+    .term-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 2rem;
+    }
+
+    .term-grid .term {
+      margin-bottom: 0;
+      will-change: transform;
+    }
+
+    .term-block .term {
+      margin-bottom: 0;
     }
 
     /* ALSO BUILT */
     .also-built {
       margin-top: 3rem;
-    }
-
-    .also-title {
       font-family: var(--mono);
-      font-size: 0.7rem;
+      font-size: 0.75rem;
       color: var(--text-dim);
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      margin-bottom: 1.5rem;
+      line-height: 1.8;
     }
 
-    .also-list {
-      list-style: none;
-      display: flex;
-      flex-direction: column;
-      gap: 0.75rem;
-    }
-
-    .also-list li {
-      font-size: 0.9rem;
-      font-weight: 300;
-      color: var(--text-dim);
-      padding-left: 1rem;
-      border-left: 1px solid var(--rule);
-      transition: color 0.2s, border-color 0.2s;
-    }
-
-    .also-list li:hover {
+    .also-built span {
       color: var(--text);
-      border-left-color: var(--text-dim);
-    }
-
-    .also-list li strong {
-      color: var(--text);
-      font-weight: 500;
     }
 
     /* CONTACT */
@@ -443,9 +424,10 @@
       display: flex;
       align-items: center;
       gap: 0.5rem;
-      transition: color 0.2s;
+      transition: color 0.2s, transform 0.15s ease-out;
       padding: 0.5rem 0;
       border-bottom: 1px solid transparent;
+      will-change: transform;
     }
 
     .contact-link:hover {
@@ -498,12 +480,20 @@
       .nav-links { gap: 1.25rem; }
       hr { margin: 0 1.5rem; }
       .hero { padding: 0 1.5rem; }
-      .hero-stats { gap: 1.5rem 2rem; flex-wrap: wrap; }
-      .marquee-wrap { display: none; }
+      .hero-stats {
+        display: grid;
+        grid-template-columns: repeat(2, auto);
+        gap: 1.5rem 2rem;
+      }
       .projects { padding: 3.5rem 1.5rem 2rem; }
-      .project { grid-template-columns: 2rem 1fr; gap: 1rem; }
       .featured-num { font-size: 5rem; top: -1rem; }
-      .featured-data { gap: 2rem; }
+      .term-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+      }
+      .term { font-size: 0.72rem; }
+      .term-body { padding: 0.75rem 1rem; }
+      .featured .term-body { padding: 1rem 1.25rem; }
       .contact { padding: 2rem 1.5rem 2rem; }
       .contact-links { flex-direction: column; gap: 0.75rem; }
       footer { padding: 2rem 1.5rem; }
@@ -512,6 +502,7 @@
 </head>
 <body>
 
+<div class="scroll-progress" id="scrollProgress"></div>
 <canvas id="canvas"></canvas>
 
 <div class="content">
@@ -551,149 +542,138 @@
     </div>
   </section>
 
-  <div class="marquee-wrap">
-    <div class="marquee-track">
-      <span>rust</span><span>neuroscience</span><span class="accent-word">spiking neural networks</span><span>graph theory</span><span>prediction markets</span><span>typescript</span><span>python</span><span>monte carlo</span><span class="accent-word">hebbian learning</span><span>fastapi</span><span>react</span><span>kelly criterion</span><span>synaptogenesis</span><span>privacy</span><span>next.js</span><span class="accent-word">structural plasticity</span><span>supabase</span><span>autonomous agents</span>
-      <span>rust</span><span>neuroscience</span><span class="accent-word">spiking neural networks</span><span>graph theory</span><span>prediction markets</span><span>typescript</span><span>python</span><span>monte carlo</span><span class="accent-word">hebbian learning</span><span>fastapi</span><span>react</span><span>kelly criterion</span><span>synaptogenesis</span><span>privacy</span><span>next.js</span><span class="accent-word">structural plasticity</span><span>supabase</span><span>autonomous agents</span>
-    </div>
-  </div>
+  <hr>
 
   <section class="projects" id="projects">
     <p class="section-title reveal">Projects</p>
 
-    <!-- ABI — Featured -->
+    <!-- ABI — Featured Terminal -->
     <div class="featured reveal">
-      <div class="featured-num">01</div>
-      <div class="featured-content">
-        <h2 class="featured-name">ABI</h2>
-        <p class="featured-sub">Artificial Biological Intelligence</p>
-        <p class="featured-desc">
-          A spiking neural network that generates coherent language from pure biological
-          dynamics. Hebbian learning, structural plasticity, dopamine-gated synaptogenesis.
-          No gradient descent. No attention heads. Neurons fire, synapses grow, language emerges.
-        </p>
-        <div class="featured-data">
-          <div class="data-point">
-            <span class="dp-val">74,700</span>
-            <span class="dp-label">neurons</span>
-          </div>
-          <div class="data-point">
-            <span class="dp-val">37.6M</span>
-            <span class="dp-label">synapses</span>
-          </div>
-          <div class="data-point">
-            <span class="dp-val">20</span>
-            <span class="dp-label">brain regions</span>
-          </div>
-          <div class="data-point">
-            <span class="dp-val">5</span>
-            <span class="dp-label">evolution stages passed</span>
-          </div>
-        </div>
-        <div class="tag-row">
-          <span class="tag patent-tag">patent filed</span>
-          <span class="tag">rust</span>
-          <span class="tag">neuroscience</span>
-          <span class="tag">snn</span>
-          <span class="tag">hebbian</span>
-          <span class="tag">synaptogenesis</span>
+      <div class="featured-num" data-parallax="0.3">01</div>
+      <h2 class="term-name">ABI<span class="term-sub">Artificial Biological Intelligence</span></h2>
+      <div class="term">
+        <div class="term-bar">~/abi</div>
+        <div class="term-body">
+          <div class="term-line" style="transition-delay:0s"><span class="term-prompt">$ </span><span class="term-cmd">cargo run --release -- --evolve 4</span></div>
+          <div class="term-line" style="transition-delay:0.04s"><span class="term-dim">   Compiling</span> abi v0.1.0</div>
+          <div class="term-line" style="transition-delay:0.08s"><span class="term-dim">    Finished</span> release [optimized]</div>
+          <div class="term-line" style="transition-delay:0.12s"><span class="term-dim">     Running</span> target/release/abi</div>
+          <div class="term-line" style="transition-delay:0.16s">&nbsp;</div>
+          <div class="term-line" style="transition-delay:0.20s">[cortex] 74,700 neurons across 20 brain regions</div>
+          <div class="term-line" style="transition-delay:0.24s">[cortex] 37.6M synapses (exc/inh/bridge)</div>
+          <div class="term-line" style="transition-delay:0.28s">[cortex] criticality: α=1.545, R²=0.763</div>
+          <div class="term-line" style="transition-delay:0.32s">[train] stage 0: noise exposure           <span class="term-ok">✓</span></div>
+          <div class="term-line" style="transition-delay:0.36s">[train] stage 1: valence (89.2%)          <span class="term-ok">✓</span></div>
+          <div class="term-line" style="transition-delay:0.40s">[train] stage 2: temporal assoc (74.3%)   <span class="term-ok">✓</span></div>
+          <div class="term-line" style="transition-delay:0.44s">[train] stage 3: sequence chain (80%)     <span class="term-ok">✓</span></div>
+          <div class="term-line" style="transition-delay:0.48s">[train] stage 4: conditional pred (75%)   <span class="term-ok">✓</span></div>
+          <div class="term-line" style="transition-delay:0.52s">&nbsp;</div>
+          <div class="term-line" style="transition-delay:0.56s">[gen] "warm" → the sun is warm because the weather is good</div>
+          <div class="term-line term-tags" style="transition-delay:0.60s"><span class="patent">patent-pending</span> · rust · snn · hebbian · synaptogenesis</div>
         </div>
       </div>
     </div>
 
-    <!-- Project list -->
-    <div class="project-list">
-      <article class="project reveal">
-        <span class="project-num">02</span>
-        <div class="project-body">
-          <h3>Artemis</h3>
-          <p>Social graph intelligence platform. Maps influence topology across 22K+ node networks, runs Monte Carlo cascade simulations, and models information propagation using graph theory.</p>
-          <div class="tag-row">
-            <span class="tag">python</span>
-            <span class="tag">graph theory</span>
-            <span class="tag">monte carlo</span>
-            <span class="tag">fastapi</span>
-          </div>
-        </div>
-      </article>
+    <!-- Terminal Grid -->
+    <div class="term-grid">
 
-      <article class="project reveal">
-        <span class="project-num">03</span>
-        <div class="project-body">
-          <h3>Pythia</h3>
-          <p>Quantitative trading engine for prediction markets. Real-time edge detection, Kelly criterion position sizing, multi-category model calibration, automated execution.</p>
-          <div class="tag-row">
-            <span class="tag">typescript</span>
-            <span class="tag">quant</span>
-            <span class="tag">prediction markets</span>
-            <span class="tag">kelly criterion</span>
+      <!-- Artemis -->
+      <div class="term-block reveal">
+        <h3 class="term-name">Artemis<span class="term-sub">social graph intelligence</span></h3>
+        <div class="term">
+          <div class="term-body">
+            <div class="term-line" style="transition-delay:0s"><span class="term-prompt">$ </span><span class="term-cmd">python -m artemis analyze --network target.json</span></div>
+            <div class="term-line" style="transition-delay:0.04s">[graph] 22,417 nodes, 89,203 edges loaded</div>
+            <div class="term-line" style="transition-delay:0.08s">[sim] monte carlo propagation × 10,000</div>
+            <div class="term-line" style="transition-delay:0.12s">[rank] @node_4891  influence: 0.94  reach: 12,847</div>
+            <div class="term-line" style="transition-delay:0.16s">[rank] @node_1102  influence: 0.87  reach: 8,231</div>
+            <div class="term-line" style="transition-delay:0.20s">[model] cascade prediction: R²=0.84</div>
+            <div class="term-line term-tags" style="transition-delay:0.24s">python · graph-theory · monte-carlo · fastapi</div>
           </div>
         </div>
-      </article>
+      </div>
 
-      <article class="project reveal">
-        <span class="project-num">04</span>
-        <div class="project-body">
-          <h3>Lock In</h3>
-          <p>Voice-first AI scheduling app. Speak naturally, get calendar events. Built for people who move too fast to type.</p>
-          <div class="tag-row">
-            <span class="tag">next.js</span>
-            <span class="tag">react</span>
-            <span class="tag">supabase</span>
-            <span class="tag">stripe</span>
+      <!-- Pythia -->
+      <div class="term-block reveal">
+        <h3 class="term-name">Pythia<span class="term-sub">quantitative trading engine</span></h3>
+        <div class="term">
+          <div class="term-body">
+            <div class="term-line" style="transition-delay:0s"><span class="term-prompt">$ </span><span class="term-cmd">npx ts-node engine --live --categories weather</span></div>
+            <div class="term-line" style="transition-delay:0.04s">[scan] 142 active markets analyzed</div>
+            <div class="term-line" style="transition-delay:0.08s">[edge] KXHIGHNY: model 72% vs market 58% → +14%</div>
+            <div class="term-line" style="transition-delay:0.12s">[kelly] optimal position: 8.2% of bankroll</div>
+            <div class="term-line" style="transition-delay:0.16s">[exec] bought 34 YES @ $0.58 → EV +$5.62</div>
+            <div class="term-line term-tags" style="transition-delay:0.20s">typescript · quant · prediction-markets · kelly-criterion</div>
           </div>
         </div>
-      </article>
+      </div>
 
-      <article class="project reveal">
-        <span class="project-num">05</span>
-        <div class="project-body">
-          <h3>remove.me</h3>
-          <p>Privacy-first navigation. Routes you around surveillance cameras. Because the shortest path isn't always the smartest one.</p>
-          <div class="tag-row">
-            <span class="tag">node.js</span>
-            <span class="tag">privacy</span>
-            <span class="tag">routing</span>
+      <!-- Lock In -->
+      <div class="term-block reveal">
+        <h3 class="term-name">Lock In<span class="term-sub">voice-first scheduling</span></h3>
+        <div class="term">
+          <div class="term-body">
+            <div class="term-line" style="transition-delay:0s"><span class="term-prompt">$ </span><span class="term-cmd">npm run dev</span></div>
+            <div class="term-line" style="transition-delay:0.04s">[mic] listening...</div>
+            <div class="term-line" style="transition-delay:0.08s">[whisper] "schedule lunch with jake tuesday noon"</div>
+            <div class="term-line" style="transition-delay:0.12s">[intent] event: lunch, person: jake, tue 12:00 PM</div>
+            <div class="term-line" style="transition-delay:0.16s">[cal] <span class="term-ok">✓</span> created: "Lunch w/ Jake" → Tue Mar 4, 12:00 PM</div>
+            <div class="term-line term-tags" style="transition-delay:0.20s">next.js · react · supabase · stripe · vercel-ai</div>
           </div>
         </div>
-      </article>
+      </div>
 
-      <article class="project reveal">
-        <span class="project-num">06</span>
-        <div class="project-body">
-          <h3>Valar</h3>
-          <p>Data sovereignty platform. Users own, control, and monetize their personal data. Keep it out of unwanted hands, sell it on your terms.</p>
-          <div class="tag-row">
-            <span class="tag">fastapi</span>
-            <span class="tag">react</span>
-            <span class="tag">gdpr</span>
-            <span class="tag">privacy</span>
+      <!-- remove.me -->
+      <div class="term-block reveal">
+        <h3 class="term-name">remove.me<span class="term-sub">privacy-first navigation</span></h3>
+        <div class="term">
+          <div class="term-body">
+            <div class="term-line" style="transition-delay:0s"><span class="term-prompt">$ </span><span class="term-cmd">curl -X POST /route -d '5th & main → union sq'</span></div>
+            <div class="term-line" style="transition-delay:0.04s">[std] standard route: 1.2 mi, 14 cameras</div>
+            <div class="term-line" style="transition-delay:0.08s">[prv] privacy route: 1.4 mi, 2 cameras</div>
+            <div class="term-line" style="transition-delay:0.12s">[saved] 12 cameras avoided, +2 min detour</div>
+            <div class="term-line" style="transition-delay:0.16s">[algo] surveillance-weighted A* pathfinding</div>
+            <div class="term-line term-tags" style="transition-delay:0.20s">node.js · privacy · routing · geospatial</div>
           </div>
         </div>
-      </article>
+      </div>
 
-      <article class="project reveal">
-        <span class="project-num">07</span>
-        <div class="project-body">
-          <h3>Daedalus</h3>
-          <p>Parallel agent system for autonomous reasoning. A lightweight neural network of independent agents that think, communicate, and self-improve. The project that led to ABI.</p>
-          <div class="tag-row">
-            <span class="tag">python</span>
-            <span class="tag">agents</span>
-            <span class="tag">autonomous</span>
+      <!-- Valar -->
+      <div class="term-block reveal">
+        <h3 class="term-name">Valar<span class="term-sub">data sovereignty platform</span></h3>
+        <div class="term">
+          <div class="term-body">
+            <div class="term-line" style="transition-delay:0s"><span class="term-prompt">$ </span><span class="term-cmd">valar status --user ash</span></div>
+            <div class="term-line" style="transition-delay:0.04s">[vault] 2.4 GB encrypted across 847 records</div>
+            <div class="term-line" style="transition-delay:0.08s">[req] DataBroker Inc. wants: browsing_history</div>
+            <div class="term-line" style="transition-delay:0.12s">[policy] user rule: <span class="term-accent">DENY</span> all browsing data</div>
+            <div class="term-line" style="transition-delay:0.16s">[block] request denied → logged to audit trail</div>
+            <div class="term-line term-tags" style="transition-delay:0.20s">fastapi · react · gdpr · privacy · encryption</div>
           </div>
         </div>
-      </article>
+      </div>
+
+      <!-- Daedalus -->
+      <div class="term-block reveal">
+        <h3 class="term-name">Daedalus<span class="term-sub">parallel agent system</span></h3>
+        <div class="term">
+          <div class="term-body">
+            <div class="term-line" style="transition-delay:0s"><span class="term-prompt">$ </span><span class="term-cmd">python -m daedalus solve "optimize db queries"</span></div>
+            <div class="term-line" style="transition-delay:0.04s">[swarm] 12 agents decomposing problem...</div>
+            <div class="term-line" style="transition-delay:0.08s">[agent-3] analyzing execution plans</div>
+            <div class="term-line" style="transition-delay:0.12s">[agent-7] found missing index on users.created_at</div>
+            <div class="term-line" style="transition-delay:0.16s">[consensus] 9/12 agree: add composite index</div>
+            <div class="term-line" style="transition-delay:0.20s">[result] projected: 340ms → 12ms <span class="term-ok">✓</span></div>
+            <div class="term-line term-tags" style="transition-delay:0.24s">python · agents · autonomous · multi-agent</div>
+          </div>
+        </div>
+      </div>
+
     </div>
 
     <!-- Also built -->
     <div class="also-built reveal">
-      <p class="also-title">Also shipped</p>
-      <ul class="also-list">
-        <li><strong>Southern Slayers</strong> — Fly fishing company. Started at 14, still running it.</li>
-        <li><strong>Programmatic video</strong> — Remotion + Motion Canvas pipelines for automated content generation.</li>
-        <li><strong>Social automation</strong> — Multi-platform branded engagement engine.</li>
-      </ul>
+      also shipped: <span>Southern Slayers</span> (fly fishing co, started at 14) · <span>programmatic video</span> (remotion pipelines) · <span>social automation</span> (multi-platform engagement)
     </div>
   </section>
 
@@ -702,19 +682,19 @@
   <section class="contact" id="contact">
     <p class="section-title reveal">Contact</p>
     <div class="contact-links reveal">
-      <a href="https://github.com/asrowland2-cpu" target="_blank" rel="noopener" class="contact-link">
+      <a href="https://github.com/asrowland2-cpu" target="_blank" rel="noopener" class="contact-link" data-magnetic>
         <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
         GitHub
       </a>
-      <a href="https://linkedin.com/in/ashton-rowland" target="_blank" rel="noopener" class="contact-link">
+      <a href="https://linkedin.com/in/ashton-rowland" target="_blank" rel="noopener" class="contact-link" data-magnetic>
         <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
         LinkedIn
       </a>
-      <a href="https://twitter.com" target="_blank" rel="noopener" class="contact-link">
+      <a href="https://twitter.com" target="_blank" rel="noopener" class="contact-link" data-magnetic>
         <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
         Twitter
       </a>
-      <a href="mailto:asrowland2@gmail.com" class="contact-link">
+      <a href="mailto:asrowland2@gmail.com" class="contact-link" data-magnetic>
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M22 7l-10 7L2 7"/></svg>
         asrowland2@gmail.com
       </a>
@@ -731,6 +711,11 @@ const x = c.getContext('2d');
 let W, H, nodes = [];
 const N = 90;
 let burstTimer = 0;
+
+// Scroll velocity tracking
+let lastScrollY = 0;
+let scrollVelocity = 0;
+let smoothVelocity = 0;
 
 function resize() {
   W = c.width = innerWidth;
@@ -754,6 +739,15 @@ function init() {
 
 function frame() {
   x.clearRect(0, 0, W, H);
+
+  // Smooth velocity decay
+  smoothVelocity += (scrollVelocity - smoothVelocity) * 0.1;
+  scrollVelocity *= 0.95;
+
+  // Scroll-velocity-driven fire rate
+  const baseFireRate = 0.02;
+  const velocityBoost = Math.min(Math.abs(smoothVelocity) / 50, 1);
+  const fireRate = baseFireRate + velocityBoost * 0.13;
 
   // connections
   for (let i = 0; i < N; i++) {
@@ -782,17 +776,14 @@ function frame() {
     const pulse = Math.sin(n.phase) * 0.3 + 0.7;
 
     if (n.fire > 0) {
-      // outer glow
       x.beginPath();
       x.arc(n.x, n.y, n.r * 8, 0, 6.28);
       x.fillStyle = `rgba(232, 74, 27, ${(n.fire / 25) * 0.12})`;
       x.fill();
-      // mid glow
       x.beginPath();
       x.arc(n.x, n.y, n.r * 4, 0, 6.28);
       x.fillStyle = `rgba(232, 74, 27, ${(n.fire / 25) * 0.25})`;
       x.fill();
-      // core
       x.beginPath();
       x.arc(n.x, n.y, n.r * 1.8, 0, 6.28);
       x.fillStyle = `rgba(236, 232, 225, ${n.fire / 22})`;
@@ -800,7 +791,6 @@ function frame() {
 
       n.fire--;
       if (n.fire === 0) {
-        // cascade propagation — more aggressive
         for (const o of nodes) {
           const d = Math.hypot(n.x - o.x, n.y - o.y);
           if (d < 140 && Math.random() < 0.18 && o.fire === 0) {
@@ -823,14 +813,15 @@ function frame() {
     if (n.y > H + 20) n.y = -20;
   }
 
-  // spontaneous firing
-  if (Math.random() < 0.02) {
+  // Spontaneous firing — modulated by scroll velocity
+  if (Math.random() < fireRate) {
     nodes[Math.floor(Math.random() * N)].fire = 22;
   }
 
-  // occasional burst event — cluster of neurons fire together
+  // Burst events — scroll velocity triggers more frequent bursts
   burstTimer++;
-  if (burstTimer > 400 && Math.random() < 0.005) {
+  const burstThreshold = velocityBoost > 0.5 ? 0.03 : 0.005;
+  if (burstTimer > (velocityBoost > 0.5 ? 100 : 400) && Math.random() < burstThreshold) {
     burstTimer = 0;
     const cx = Math.random() * W;
     const cy = Math.random() * H;
@@ -848,6 +839,13 @@ addEventListener('resize', () => { resize(); init(); });
 resize();
 init();
 frame();
+
+// ── Scroll Tracking ──────────────────────────────
+window.addEventListener('scroll', () => {
+  const currentY = window.scrollY;
+  scrollVelocity = currentY - lastScrollY;
+  lastScrollY = currentY;
+}, { passive: true });
 
 // ── Counter Animation ──────────────────────────
 function countUp(el) {
@@ -881,11 +879,18 @@ new IntersectionObserver(([e]) => {
   }
 }, { threshold: 0.5 }).observe(document.querySelector('.hero-stats'));
 
-// ── Scroll Reveal ──────────────────────────────
+// ── Scroll Reveal + Terminal Line Cascade ──────────
 const ro = new IntersectionObserver((entries) => {
   entries.forEach(e => {
     if (e.isIntersecting) {
       e.target.classList.add('vis');
+      // Activate child .term inside .term-block or .featured
+      const childTerm = e.target.querySelector('.term');
+      if (childTerm) childTerm.classList.add('active');
+      // Direct .term elements (if any)
+      if (e.target.classList.contains('term')) {
+        e.target.classList.add('active');
+      }
       ro.unobserve(e.target);
     }
   });
@@ -897,14 +902,85 @@ document.querySelectorAll('.reveal').forEach(el => ro.observe(el));
 const featured = document.querySelector('.featured');
 const canvasEl = document.getElementById('canvas');
 
-window.addEventListener('scroll', () => {
+// ── Scroll Progress Bar ────────────────────────
+const scrollProgress = document.getElementById('scrollProgress');
+
+// ── Lerped Parallax ────────────────────────────
+const parallaxEls = document.querySelectorAll('[data-parallax]');
+const termGridEls = document.querySelectorAll('.term-grid .term-block');
+let currentParallax = {};
+
+function updateScroll() {
   if (!featured) return;
+  const scrollY = window.scrollY;
+
+  // Canvas brightness near ABI
   const rect = featured.getBoundingClientRect();
   const center = rect.top + rect.height / 2;
   const dist = Math.abs(center - innerHeight / 2);
   const proximity = Math.max(0, 1 - dist / (innerHeight * 0.8));
   canvasEl.style.opacity = 0.15 + proximity * 0.25;
-});
+
+  // Scroll progress bar
+  const docHeight = document.documentElement.scrollHeight - innerHeight;
+  const progress = docHeight > 0 ? (scrollY / docHeight) * 100 : 0;
+  scrollProgress.style.height = progress + '%';
+
+  // Parallax on ghost numbers — viewport-relative, lags behind content
+  parallaxEls.forEach(el => {
+    const rate = parseFloat(el.dataset.parallax);
+    const id = el.dataset.parallax + el.textContent;
+    if (!currentParallax[id]) currentParallax[id] = 0;
+    const elRect = el.getBoundingClientRect();
+    const distFromCenter = (elRect.top + elRect.height / 2 - innerHeight / 2);
+    const target = distFromCenter * rate;
+    currentParallax[id] += (target - currentParallax[id]) * 0.06;
+    el.style.transform = `translateY(${currentParallax[id]}px)`;
+  });
+
+  // Subtle parallax on grid terminals (0.95x = slight lag)
+  termGridEls.forEach((el, i) => {
+    const key = 'grid' + i;
+    if (!currentParallax[key]) currentParallax[key] = 0;
+    const elRect = el.getBoundingClientRect();
+    const elCenter = elRect.top + elRect.height / 2;
+    const viewCenter = innerHeight / 2;
+    const offset = (elCenter - viewCenter) * 0.02;
+    currentParallax[key] += (offset - currentParallax[key]) * 0.08;
+    el.style.transform = `translateY(${currentParallax[key]}px)`;
+  });
+
+  requestAnimationFrame(updateScroll);
+}
+
+requestAnimationFrame(updateScroll);
+
+// ── Magnetic Hover on Contact Links ────────────
+if (!('ontouchstart' in window)) {
+  const magneticLinks = document.querySelectorAll('[data-magnetic]');
+
+  document.addEventListener('mousemove', (e) => {
+    magneticLinks.forEach(link => {
+      const rect = link.getBoundingClientRect();
+      const cx = rect.left + rect.width / 2;
+      const cy = rect.top + rect.height / 2;
+      const dx = e.clientX - cx;
+      const dy = e.clientY - cy;
+      const dist = Math.sqrt(dx * dx + dy * dy);
+      const maxDist = 120;
+      const maxOffset = 4;
+
+      if (dist < maxDist) {
+        const pull = (1 - dist / maxDist) * maxOffset;
+        const ax = (dx / dist) * pull;
+        const ay = (dy / dist) * pull;
+        link.style.transform = `translate(${ax}px, ${ay}px)`;
+      } else {
+        link.style.transform = '';
+      }
+    });
+  });
+}
 </script>
 
 </body>
