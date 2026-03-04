@@ -419,6 +419,18 @@
       transform: none;
     }
 
+    /* SHORT VIEWPORTS (laptops) */
+    @media (max-height: 850px) {
+      .hero h1 {
+        font-size: clamp(2.5rem, 5.5vw, 4rem);
+        margin-bottom: 1.5rem;
+      }
+      .hero-label { margin-bottom: 0.75rem; }
+      .hero-bio { font-size: 1rem; margin-bottom: 2rem; }
+      .hero-stats { gap: 2.5rem; }
+      .stat-val { font-size: 1.3rem; }
+    }
+
     /* RESPONSIVE */
     @media (max-width: 700px) {
       nav { padding: 1.25rem 1.5rem; }
