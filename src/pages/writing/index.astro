@@ -1,12 +1,21 @@
 ---
 import Base from '../../layouts/Base.astro';
+
+const NAME = 'Writing';
+const letters = NAME.split('').map((ch, i) => ({ ch, delay: i * 25 }));
 ---
 <Base
   title="Writing · Ashton Rowland"
   description="Essays by Ashton Rowland."
 >
   <main>
-    <h1 class="rise rise-1">Writing</h1>
+    <h1 class="hero-name" aria-label={NAME}>
+      <span class="word">
+        {letters.map(l => (
+          <span class="letter" style={`animation-delay: ${l.delay}ms`} aria-hidden="true">{l.ch}</span>
+        ))}
+      </span>
+    </h1>
     <p class="role rise rise-2">Essays, occasional.</p>
 
     <section class="section">

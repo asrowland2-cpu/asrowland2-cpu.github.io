@@ -61,7 +61,7 @@ main {
   html { font-size: 18px; }
 }
 
-h1 {
+h1, .hero-name {
   font-family: var(--serif);
   font-weight: 500;
   font-size: clamp(2.75rem, 6vw, 4rem);
@@ -95,6 +95,38 @@ p:last-child { margin-bottom: 0; }
 
 .section { margin-top: 3.5rem; }
 
+.dropcap::first-letter {
+  font-family: var(--serif);
+  font-weight: 500;
+  font-size: 4.2em;
+  font-variation-settings: 'opsz' 36;
+  line-height: 0.85;
+  float: left;
+  margin: 0.05em 0.12em -0.05em -0.04em;
+  color: var(--text);
+}
+
+.ornament {
+  position: relative;
+  text-align: center;
+  margin: 4rem 0 0;
+  height: 1px;
+  background: var(--rule);
+}
+
+.ornament span {
+  position: relative;
+  top: -0.7em;
+  background: var(--bg);
+  color: var(--text-faint);
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 0.95rem;
+  letter-spacing: 0.4em;
+  padding: 0 1em;
+  display: inline-block;
+}
+
 footer {
   max-width: var(--col);
   margin: 0 auto;
@@ -105,6 +137,29 @@ footer {
   display: flex;
   gap: 1.5rem;
   flex-wrap: wrap;
+  align-items: baseline;
+}
+
+.est {
+  margin-left: auto;
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 0.92rem;
+  color: var(--text-faint);
+  font-variation-settings: 'opsz' 14;
+}
+
+.word { display: inline-block; }
+
+.letter {
+  display: inline-block;
+  opacity: 0;
+  transform: translateY(0.4em);
+  animation: letter-rise 600ms var(--ease-out) forwards;
+}
+
+@keyframes letter-rise {
+  to { opacity: 1; transform: none; }
 }
 
 @keyframes rise {
@@ -118,13 +173,13 @@ footer {
 }
 
 .rise-1 { animation-delay: 0ms; }
-.rise-2 { animation-delay: 120ms; }
-.rise-3 { animation-delay: 280ms; }
-.rise-4 { animation-delay: 460ms; }
-.rise-5 { animation-delay: 660ms; }
-.rise-6 { animation-delay: 880ms; }
+.rise-2 { animation-delay: 350ms; }
+.rise-3 { animation-delay: 520ms; }
+.rise-4 { animation-delay: 700ms; }
+.rise-5 { animation-delay: 880ms; }
+.rise-6 { animation-delay: 1080ms; }
 
 @media (prefers-reduced-motion: reduce) {
-  .rise { opacity: 1; animation: none; }
+  .rise, .letter { opacity: 1; animation: none; transform: none; }
   * { transition: none !important; }
 }
